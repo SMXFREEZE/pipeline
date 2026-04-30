@@ -1,0 +1,23 @@
+{
+  "name": "viral-pipeline-trend-request-contract",
+  "description": "Payload contract for dispatching trend monitor requests from the Python pipeline into an n8n workflow.",
+  "webhook_event": "trend_monitor.requested",
+  "payload": {
+    "keywords": ["ai video", "street food"],
+    "max_items": 50,
+    "platforms": ["reddit", "instagram", "tiktok"],
+    "required_rights_gate": true,
+    "allowed_next_actions": [
+      "trend_analysis",
+      "caption_inspiration",
+      "creator_outreach_review"
+    ]
+  },
+  "expected_n8n_steps": [
+    "Receive webhook",
+    "Run Apify Reddit/Instagram/TikTok actors",
+    "Normalize engagement fields",
+    "Return ranked trend metadata",
+    "Do not download or repost media without rights approval"
+  ]
+}

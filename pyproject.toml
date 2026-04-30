@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "compliant-viral-video-pipeline"
+version = "0.1.0"
+description = "Rights-aware agentic pipeline for short-form video ingestion, processing, captioning, and publishing queues."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+api = ["fastapi>=0.115", "uvicorn[standard]>=0.30"]
+download = ["yt-dlp>=2025.1.1"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+viral-pipeline = "viral_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

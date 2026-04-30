@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dedomena Video Automation</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain-overlay"></div>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-row">
+          <div>
+            <div class="brand-name">dedomena<span class="sigma">Σ</span></div>
+            <div class="brand-subtitle">video automation</div>
+          </div>
+          <button class="icon-button" id="refreshStatus" title="Refresh status" type="button">
+            <span class="icon">↻</span>
+          </button>
+        </div>
+
+        <nav class="nav-group" aria-label="Studio navigation">
+          <p class="nav-label">Studio</p>
+          <button class="nav-item active" type="button">
+            <span class="nav-icon">✦</span>
+            <span>
+              <strong>Campaign</strong>
+              <small>Brand, prompts, cadence</small>
+            </span>
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">▣</span>
+            <span>
+              <strong>Queue</strong>
+              <small>Drafts and scheduled posts</small>
+            </span>
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">⌁</span>
+            <span>
+              <strong>Runs</strong>
+              <small>Generation and publish log</small>
+            </span>
+          </button>
+        </nav>
+
+        <div class="sidebar-section">
+          <p class="nav-label">Connected services</p>
+          <div class="service-row">
+            <span class="service-dot wait"></span>
+            <span>OpenMontage</span>
+            <small id="generatorStatus">not checked</small>
+          </div>
+          <div class="service-row">
+            <span class="service-dot wait"></span>
+            <span>Postiz</span>
+            <small id="postizStatus">not checked</small>
+          </div>
+          <div class="service-row">
+            <span class="service-dot ok"></span>
+            <span>Review queue</span>
+            <small>local</small>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <button class="primary-button full" id="runOnceSide" type="button">Run once</button>
+          <button class="ghost-button full" id="stopSide" type="button">Stop automation</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Autonomous startup video desk</h1>
+            <p>Generate original videos, queue drafts, and publish on a cadence you control.</p>
+          </div>
+          <div class="topbar-actions">
+            <label class="api-field">
+              <span>API</span>
+              <input id="apiBase" value="http://127.0.0.1:8000" />
+            </label>
+            <span class="status-pill" id="connectionPill">Local mode</span>
+          </div>
+        </header>
+
+        <section class="workspace">
+          <div class="panel brand-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Startup profile</h2>
+                <p>The generator uses this as the creative brief.</p>
+              </div>
+              <span class="mini-pill">Owned content</span>
+            </div>
+
+            <div class="logo-drop" id="logoDrop">
+              <input id="logoInput" type="file" accept="image/*" />
+              <div class="logo-preview" id="logoPreview">
+                <span>Σ</span>
+              </div>
+              <div>
+                <strong>Startup logo</strong>
+                <small>PNG, JPG, or SVG reference for branded videos</small>
+              </div>
+            </div>
+
+            <label class="field">
+              <span>Startup name</span>
+              <input id="startupName" value="AcmeAI" />
+            </label>
+            <label class="field">
+              <span>What is it about?</span>
+              <textarea id="description" rows="5">AI support assistant that helps small teams answer customer questions, reduce backlog, and spot product issues.</textarea>
+            </label>
+            <label class="field">
+              <span>Target audience</span>
+              <input id="audience" value="bootstrapped founders and support leads" />
+            </label>
+            <label class="field">
+              <span>Offer or CTA</span>
+              <input id="offer" value="start a free trial" />
+            </label>
+          </div>
+
+          <div class="panel creative-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Video system</h2>
+                <p>Angles, platforms, and cadence for the automation loop.</p>
+              </div>
+              <span class="mini-pill live" id="modeLabel">Continuous</span>
+            </div>
+
+            <div class="segmented" role="group" aria-label="Automation mode">
+              <button class="segment active" data-mode="continuous" type="button">Always on</button>
+              <button class="segment" data-mode="scheduled" type="button">Scheduled time</button>
+            </div>
+
+            <div class="cadence-grid">
+              <label class="field compact" id="intervalWrap">
+                <span>Interval</span>
+                <select id="intervalMinutes">
+                  <option value="15">Every 15 min</option>
+                  <option value="30" selected>Every 30 min</option>
+                  <option value="60">Every hour</option>
+                  <option value="180">Every 3 hours</option>
+                  <option value="720">Twice daily</option>
+                </select>
+              </label>
+              <label class="field compact hidden" id="scheduledWrap">
+                <span>Scheduled at</span>
+                <input id="scheduledAt" type="datetime-local" />
+              </label>
+              <label class="field compact">
+                <span>Tone</span>
+                <select id="tone">
+                  <option>clear, energetic, trustworthy</option>
+                  <option>cinematic and premium</option>
+                  <option>founder-led and direct</option>
+                  <option>playful and fast-paced</option>
+                  <option>educational and calm</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="field">
+              <span>Video themes</span>
+              <div class="chip-editor">
+                <div class="chips" id="themeChips"></div>
+                <input id="themeInput" placeholder="Add a theme and press Enter" />
+              </div>
+            </div>
+
+            <div class="format-grid">
+              <button class="format-card selected" data-format="problem-solution" type="button">
+                <strong>Problem → solution</strong>
+                <small>Hook, pain, proof, CTA</small>
+              </button>
+              <button class="format-card selected" data-format="founder-note" type="button">
+                <strong>Founder note</strong>
+                <small>POV, insight, quick demo</small>
+              </button>
+              <button class="format-card" data-format="before-after" type="button">
+                <strong>Before / after</strong>
+                <small>Manual workflow vs product</small>
+              </button>
+              <button class="format-card" data-format="myth-busting" type="button">
+                <strong>Myth busting</strong>
+                <small>Educational objection handling</small>
+              </button>
+            </div>
+
+            <div class="platform-row">
+              <label><input type="checkbox" class="platform" value="tiktok" checked /> TikTok</label>
+              <label><input type="checkbox" class="platform" value="instagram_reels" checked /> Reels</label>
+              <label><input type="checkbox" class="platform" value="youtube_shorts" checked /> Shorts</label>
+            </div>
+          </div>
+
+          <div class="panel control-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Automation control</h2>
+                <p>Start, stop, or run the next generation immediately.</p>
+              </div>
+              <span class="status-light" id="engineLight"></span>
+            </div>
+
+            <div class="control-orb" id="controlOrb">
+              <span id="orbState">Stopped</span>
+              <strong id="nextRun">No active cadence</strong>
+            </div>
+
+            <div class="button-row">
+              <button class="primary-button" id="startButton" type="button">Start loop</button>
+              <button class="ghost-button" id="runOnceButton" type="button">Run once</button>
+              <button class="danger-button" id="stopButton" type="button">Stop</button>
+            </div>
+
+            <div class="toggle-list">
+              <label>
+                <input id="autoPublish" type="checkbox" />
+                <span>
+                  <strong>Send to Postiz</strong>
+                  <small>Draft first unless backend approval is disabled</small>
+                </span>
+              </label>
+              <label>
+                <input id="queueDrafts" type="checkbox" checked />
+                <span>
+                  <strong>Keep review queue</strong>
+                  <small>Preserve a local approval trail</small>
+                </span>
+              </label>
+            </div>
+
+            <div class="metrics">
+              <div>
+                <strong id="runCount">0</strong>
+                <small>runs</small>
+              </div>
+              <div>
+                <strong id="queuedCount">0</strong>
+                <small>queued</small>
+              </div>
+              <div>
+                <strong id="publishedCount">0</strong>
+                <small>posted</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lower-grid">
+          <div class="panel preview-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Next video brief</h2>
+                <p>Live preview of the prompt that will be sent to generation.</p>
+              </div>
+              <button class="ghost-button small" id="copyBrief" type="button">Copy</button>
+            </div>
+            <div class="video-frame">
+              <div class="frame-top">
+                <span id="frameBrand">AcmeAI</span>
+                <small>9:16 original short</small>
+              </div>
+              <div class="frame-title" id="frameTitle">Customer support automation</div>
+              <div class="frame-caption" id="frameCaption">A founder-led clip about reducing support backlog with AI.</div>
+              <div class="frame-footer">
+                <span>CTA</span>
+                <strong id="frameCta">start a free trial</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel queue-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Publishing queue</h2>
+                <p>Drafts, scheduled posts, and backend run status.</p>
+              </div>
+              <button class="ghost-button small" id="clearLog" type="button">Clear</button>
+            </div>
+            <div class="timeline" id="timeline"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
