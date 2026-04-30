@@ -3,292 +3,277 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dedomena Video Automation</title>
+    <title>Pipeline Studio</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="grain-overlay"></div>
-    <div class="app-shell">
-      <aside class="sidebar">
-        <div class="brand-row">
+    <div class="noise-layer"></div>
+    <main class="studio-shell">
+      <header class="hero">
+        <div class="brand-lockup">
+          <span class="brand-mark">P</span>
           <div>
-            <div class="brand-name">dedomena<span class="sigma">Σ</span></div>
-            <div class="brand-subtitle">video automation</div>
-          </div>
-          <button class="icon-button" id="refreshStatus" title="Refresh status" type="button">
-            <span class="icon">↻</span>
-          </button>
-        </div>
-
-        <nav class="nav-group" aria-label="Studio navigation">
-          <p class="nav-label">Studio</p>
-          <button class="nav-item active" type="button">
-            <span class="nav-icon">✦</span>
-            <span>
-              <strong>Campaign</strong>
-              <small>Brand, prompts, cadence</small>
-            </span>
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">▣</span>
-            <span>
-              <strong>Queue</strong>
-              <small>Drafts and scheduled posts</small>
-            </span>
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">⌁</span>
-            <span>
-              <strong>Runs</strong>
-              <small>Generation and publish log</small>
-            </span>
-          </button>
-        </nav>
-
-        <div class="sidebar-section">
-          <p class="nav-label">Connected services</p>
-          <div class="service-row">
-            <span class="service-dot wait"></span>
-            <span>OpenMontage</span>
-            <small id="generatorStatus">not checked</small>
-          </div>
-          <div class="service-row">
-            <span class="service-dot wait"></span>
-            <span>Postiz</span>
-            <small id="postizStatus">not checked</small>
-          </div>
-          <div class="service-row">
-            <span class="service-dot ok"></span>
-            <span>Review queue</span>
-            <small>local</small>
+            <strong>Pipeline Studio</strong>
+            <span>Startup video automation</span>
           </div>
         </div>
 
-        <div class="sidebar-footer">
-          <button class="primary-button full" id="runOnceSide" type="button">Run once</button>
-          <button class="ghost-button full" id="stopSide" type="button">Stop automation</button>
+        <div class="hero-copy">
+          <h1>Make startup videos without babysitting the pipeline.</h1>
+          <p>
+            Add your startup details, pick the type of clips you want, then run once or keep
+            publishing on a schedule until you stop it.
+          </p>
         </div>
-      </aside>
 
-      <main class="main">
-        <header class="topbar">
+        <div class="hero-actions">
+          <button class="button primary" id="startButton" type="button">Start auto loop</button>
+          <button class="button secondary" id="runOnceButton" type="button">Generate once</button>
+          <button class="button danger" id="stopButton" type="button">Stop</button>
+        </div>
+      </header>
+
+      <section class="status-strip" aria-label="Pipeline status">
+        <div class="status-card">
+          <span class="status-dot" id="backendDot"></span>
           <div>
-            <h1>Autonomous startup video desk</h1>
-            <p>Generate original videos, queue drafts, and publish on a cadence you control.</p>
+            <strong id="connectionPill">Checking backend</strong>
+            <span>FastAPI studio server</span>
           </div>
-          <div class="topbar-actions">
-            <label class="api-field">
-              <span>API</span>
-              <input id="apiBase" value="http://127.0.0.1:8000" />
-            </label>
-            <span class="status-pill" id="connectionPill">Local mode</span>
+        </div>
+        <div class="status-card">
+          <span class="status-dot warn"></span>
+          <div>
+            <strong id="generatorStatus">Generator not checked</strong>
+            <span>OpenMontage webhook</span>
           </div>
-        </header>
+        </div>
+        <div class="status-card">
+          <span class="status-dot ok"></span>
+          <div>
+            <strong id="postizStatus">Postiz optional</strong>
+            <span>Drafts and scheduling</span>
+          </div>
+        </div>
+        <details class="api-details">
+          <summary>API settings</summary>
+          <label>
+            Backend URL
+            <input id="apiBase" value="http://127.0.0.1:8000" />
+          </label>
+        </details>
+      </section>
 
-        <section class="workspace">
-          <div class="panel brand-panel">
-            <div class="panel-heading">
+      <div class="workspace">
+        <section class="setup-flow">
+          <article class="panel step-panel">
+            <div class="step-heading">
+              <span class="step-number">1</span>
               <div>
-                <h2>Startup profile</h2>
-                <p>The generator uses this as the creative brief.</p>
-              </div>
-              <span class="mini-pill">Owned content</span>
-            </div>
-
-            <div class="logo-drop" id="logoDrop">
-              <input id="logoInput" type="file" accept="image/*" />
-              <div class="logo-preview" id="logoPreview">
-                <span>Σ</span>
-              </div>
-              <div>
-                <strong>Startup logo</strong>
-                <small>PNG, JPG, or SVG reference for branded videos</small>
+                <h2>Startup basics</h2>
+                <p>The creative brief used for every generated video.</p>
               </div>
             </div>
 
+            <div class="logo-row">
+              <label class="logo-picker" for="logoInput">
+                <input id="logoInput" type="file" accept="image/*" />
+                <span id="logoPreview" class="logo-preview">Logo</span>
+              </label>
+              <div>
+                <strong>Upload your startup logo</strong>
+                <p>Used as a brand reference in generated briefs. PNG, JPG, or SVG works.</p>
+              </div>
+            </div>
+
+            <div class="form-grid two">
+              <label class="field">
+                <span>Startup name</span>
+                <input id="startupName" value="AcmeAI" autocomplete="organization" />
+              </label>
+              <label class="field">
+                <span>Offer or call to action</span>
+                <input id="offer" value="start a free trial" />
+              </label>
+            </div>
+
             <label class="field">
-              <span>Startup name</span>
-              <input id="startupName" value="AcmeAI" />
+              <span>What does your startup do?</span>
+              <textarea id="description" rows="4">AI support assistant that helps small teams answer customer questions, reduce backlog, and spot product issues.</textarea>
             </label>
+
             <label class="field">
-              <span>What is it about?</span>
-              <textarea id="description" rows="5">AI support assistant that helps small teams answer customer questions, reduce backlog, and spot product issues.</textarea>
-            </label>
-            <label class="field">
-              <span>Target audience</span>
+              <span>Who should the videos speak to?</span>
               <input id="audience" value="bootstrapped founders and support leads" />
             </label>
-            <label class="field">
-              <span>Offer or CTA</span>
-              <input id="offer" value="start a free trial" />
-            </label>
-          </div>
+          </article>
 
-          <div class="panel creative-panel">
-            <div class="panel-heading">
+          <article class="panel step-panel">
+            <div class="step-heading">
+              <span class="step-number">2</span>
               <div>
-                <h2>Video system</h2>
-                <p>Angles, platforms, and cadence for the automation loop.</p>
+                <h2>Video plan</h2>
+                <p>Choose repeatable themes, platforms, tone, and cadence.</p>
               </div>
-              <span class="mini-pill live" id="modeLabel">Continuous</span>
             </div>
 
-            <div class="segmented" role="group" aria-label="Automation mode">
-              <button class="segment active" data-mode="continuous" type="button">Always on</button>
-              <button class="segment" data-mode="scheduled" type="button">Scheduled time</button>
+            <div class="mode-picker" role="group" aria-label="Automation mode">
+              <button class="mode-button active" data-mode="continuous" type="button">
+                <strong>Keep running</strong>
+                <span>Publish repeatedly until stopped</span>
+              </button>
+              <button class="mode-button" data-mode="scheduled" type="button">
+                <strong>Run at a time</strong>
+                <span>Generate at one scheduled time</span>
+              </button>
             </div>
 
-            <div class="cadence-grid">
-              <label class="field compact" id="intervalWrap">
-                <span>Interval</span>
+            <div class="form-grid three">
+              <label class="field" id="intervalWrap">
+                <span>Repeat every</span>
                 <select id="intervalMinutes">
-                  <option value="15">Every 15 min</option>
-                  <option value="30" selected>Every 30 min</option>
-                  <option value="60">Every hour</option>
-                  <option value="180">Every 3 hours</option>
-                  <option value="720">Twice daily</option>
+                  <option value="15">15 minutes</option>
+                  <option value="30" selected>30 minutes</option>
+                  <option value="60">1 hour</option>
+                  <option value="180">3 hours</option>
+                  <option value="720">12 hours</option>
                 </select>
               </label>
-              <label class="field compact hidden" id="scheduledWrap">
-                <span>Scheduled at</span>
+              <label class="field is-hidden" id="scheduledWrap">
+                <span>Run at</span>
                 <input id="scheduledAt" type="datetime-local" />
               </label>
-              <label class="field compact">
+              <label class="field">
                 <span>Tone</span>
                 <select id="tone">
                   <option>clear, energetic, trustworthy</option>
-                  <option>cinematic and premium</option>
                   <option>founder-led and direct</option>
+                  <option>cinematic and premium</option>
                   <option>playful and fast-paced</option>
                   <option>educational and calm</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Send to</span>
+                <select id="platformPreset">
+                  <option value="all">TikTok, Reels, Shorts</option>
+                  <option value="tiktok">TikTok only</option>
+                  <option value="instagram_reels">Instagram Reels only</option>
+                  <option value="youtube_shorts">YouTube Shorts only</option>
                 </select>
               </label>
             </div>
 
             <div class="field">
               <span>Video themes</span>
-              <div class="chip-editor">
+              <div class="theme-box">
                 <div class="chips" id="themeChips"></div>
-                <input id="themeInput" placeholder="Add a theme and press Enter" />
+                <input id="themeInput" placeholder="Type a theme and press Enter" />
+              </div>
+              <div class="suggestions" aria-label="Suggested themes">
+                <button data-theme="founder story" type="button">Founder story</button>
+                <button data-theme="product demo" type="button">Product demo</button>
+                <button data-theme="before and after workflow" type="button">Before and after</button>
+                <button data-theme="customer pain point" type="button">Pain point</button>
               </div>
             </div>
 
-            <div class="format-grid">
+            <div class="formats" aria-label="Video formats">
               <button class="format-card selected" data-format="problem-solution" type="button">
-                <strong>Problem → solution</strong>
-                <small>Hook, pain, proof, CTA</small>
+                <strong>Problem to solution</strong>
+                <span>Fast hook, pain, proof, CTA</span>
               </button>
               <button class="format-card selected" data-format="founder-note" type="button">
                 <strong>Founder note</strong>
-                <small>POV, insight, quick demo</small>
+                <span>Personal insight or lesson</span>
               </button>
               <button class="format-card" data-format="before-after" type="button">
-                <strong>Before / after</strong>
-                <small>Manual workflow vs product</small>
+                <strong>Before and after</strong>
+                <span>Manual workflow vs product</span>
               </button>
               <button class="format-card" data-format="myth-busting" type="button">
                 <strong>Myth busting</strong>
-                <small>Educational objection handling</small>
+                <span>Answer objections clearly</span>
               </button>
             </div>
+          </article>
+        </section>
 
-            <div class="platform-row">
-              <label><input type="checkbox" class="platform" value="tiktok" checked /> TikTok</label>
-              <label><input type="checkbox" class="platform" value="instagram_reels" checked /> Reels</label>
-              <label><input type="checkbox" class="platform" value="youtube_shorts" checked /> Shorts</label>
-            </div>
-          </div>
-
-          <div class="panel control-panel">
-            <div class="panel-heading">
+        <aside class="control-column">
+          <section class="panel launch-panel">
+            <div class="live-state">
+              <span class="state-dot" id="engineLight"></span>
               <div>
-                <h2>Automation control</h2>
-                <p>Start, stop, or run the next generation immediately.</p>
+                <strong id="orbState">Stopped</strong>
+                <span id="nextRun">No active cadence</span>
               </div>
-              <span class="status-light" id="engineLight"></span>
             </div>
 
-            <div class="control-orb" id="controlOrb">
-              <span id="orbState">Stopped</span>
-              <strong id="nextRun">No active cadence</strong>
+            <div class="primary-stack">
+              <button class="button primary wide" id="startButtonSide" type="button">Start auto loop</button>
+              <button class="button secondary wide" id="runOnceSide" type="button">Generate once</button>
+              <button class="button danger wide" id="stopSide" type="button">Stop automation</button>
             </div>
 
-            <div class="button-row">
-              <button class="primary-button" id="startButton" type="button">Start loop</button>
-              <button class="ghost-button" id="runOnceButton" type="button">Run once</button>
-              <button class="danger-button" id="stopButton" type="button">Stop</button>
-            </div>
-
-            <div class="toggle-list">
+            <div class="option-list">
               <label>
                 <input id="autoPublish" type="checkbox" />
                 <span>
-                  <strong>Send to Postiz</strong>
-                  <small>Draft first unless backend approval is disabled</small>
+                  <strong>Send drafts to Postiz</strong>
+                  <small>Uses Postiz when integration IDs are configured.</small>
                 </span>
               </label>
               <label>
                 <input id="queueDrafts" type="checkbox" checked />
                 <span>
                   <strong>Keep review queue</strong>
-                  <small>Preserve a local approval trail</small>
+                  <small>Save local queue files before publishing.</small>
                 </span>
               </label>
             </div>
 
             <div class="metrics">
-              <div>
-                <strong id="runCount">0</strong>
-                <small>runs</small>
-              </div>
-              <div>
-                <strong id="queuedCount">0</strong>
-                <small>queued</small>
-              </div>
-              <div>
-                <strong id="publishedCount">0</strong>
-                <small>posted</small>
-              </div>
+              <div><strong id="runCount">0</strong><span>Runs</span></div>
+              <div><strong id="queuedCount">0</strong><span>Queued</span></div>
+              <div><strong id="publishedCount">0</strong><span>Posted</span></div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="lower-grid">
-          <div class="panel preview-panel">
-            <div class="panel-heading">
+          <section class="panel preview-panel">
+            <div class="panel-title-row">
               <div>
-                <h2>Next video brief</h2>
-                <p>Live preview of the prompt that will be sent to generation.</p>
+                <h2>Next video</h2>
+                <p>Preview the next generated brief.</p>
               </div>
-              <button class="ghost-button small" id="copyBrief" type="button">Copy</button>
+              <button class="button tiny" id="copyBrief" type="button">Copy brief</button>
             </div>
-            <div class="video-frame">
-              <div class="frame-top">
-                <span id="frameBrand">AcmeAI</span>
-                <small>9:16 original short</small>
+            <div class="video-preview">
+              <div class="preview-top">
+                <strong id="frameBrand">AcmeAI</strong>
+                <span>9:16 short</span>
               </div>
-              <div class="frame-title" id="frameTitle">Customer support automation</div>
-              <div class="frame-caption" id="frameCaption">A founder-led clip about reducing support backlog with AI.</div>
-              <div class="frame-footer">
+              <h3 id="frameTitle">customer support automation</h3>
+              <p id="frameCaption">A founder-led clip about reducing support backlog with AI.</p>
+              <div class="preview-cta">
                 <span>CTA</span>
                 <strong id="frameCta">start a free trial</strong>
               </div>
             </div>
-          </div>
+          </section>
+        </aside>
+      </div>
 
-          <div class="panel queue-panel">
-            <div class="panel-heading">
-              <div>
-                <h2>Publishing queue</h2>
-                <p>Drafts, scheduled posts, and backend run status.</p>
-              </div>
-              <button class="ghost-button small" id="clearLog" type="button">Clear</button>
-            </div>
-            <div class="timeline" id="timeline"></div>
+      <section class="panel activity-panel">
+        <div class="panel-title-row">
+          <div>
+            <h2>Activity</h2>
+            <p>Generation plans, backend results, and publishing actions show up here.</p>
           </div>
-        </section>
-      </main>
-    </div>
+          <button class="button tiny" id="clearLog" type="button">Clear log</button>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </section>
+    </main>
 
     <script src="./app.js"></script>
   </body>
