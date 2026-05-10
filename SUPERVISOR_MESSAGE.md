@@ -20,6 +20,8 @@ For Flooently, I created three AI-generated content pieces using a Remotion iMes
 
 The videos are vertical `1080x1920`, `30fps`, captioned, and include animated messages, typing bubbles, realistic dark iMessage-style UI, Flooently branding, and editable script data. I followed the PDF direction that each piece should be a different format hypothesis for language-learning TikTok, and I avoided fake UGC, fake testimonials, fake influencer dialogue, exaggerated claims, and brainrot-style content.
 
+My opinion on why this format could work: it hits a common language-learning problem where people know what they want to say, but not how to make it sound natural. The iMessage style makes the awkward texting moment instantly understandable on TikTok and makes Flooently feel like a useful tool inside a real habit instead of just an ad. It is also repeatable across languages, slang, dating, school, travel, and group chats.
+
 Main difficulties and how I resolved them:
 
 - The public Flooently repo confirms the `imessage-simulator` reference is a native Swift/SwiftUI project with a Swift renderer, which I could not run natively on Windows. I resolved this by recreating the same style in Remotion/React while keeping the look close to iMessage.

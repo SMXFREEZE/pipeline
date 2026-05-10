@@ -245,6 +245,8 @@ The PDF reference in `C:\Users\sami\Downloads\FlooentlyProjects copy 2.pdf` fram
 
 ### Video Rationales
 
+Overall format opinion: I chose these iMessage-style formats because they hit a common language-learning problem: knowing what you want to say, but not knowing how to make it sound natural. The texting UI makes the awkward moment immediately understandable on TikTok and makes Flooently feel like a useful tool inside a real habit instead of a traditional ad. The format can also be repeated across languages, slang, dating, school, travel, and group chats without turning into fake UGC or mega brainrot.
+
 `french-natural-text` / `FlooentlyFrenchNaturalText`: a screen-record utility demo for students who can form a sentence in French but still sound stiff or textbook. The hook opens with the payoff problem immediately, and the format could pop because language learners recognize the gap between "correct" and "natural."
 
 `spanish-reply-panic` / `FlooentlySpanishReplyPanic`: a POV social-texting panic moment where someone understands a Spanish invite but freezes when replying. This is a different hypothesis: emotional relatability first, then a quick product save.
@@ -296,6 +298,8 @@ All registered videos use:
 - width: `1080`
 - height: `1920`
 - fps: `30`
+
+Submission-ready MP4 copies are also in `videos_takehome/`.
 
 ### Hosted Video Endpoints
 
