@@ -434,9 +434,9 @@ class AutomationEngine:
 
     def _publish_if_requested(self, job: AutomationJob, candidates) -> str:
         if not job.auto_publish:
-            return "Saved to review queue."
+            return "Saved to publishing queue."
         if not self.settings.postiz_integration_ids:
-            return "Auto-publish requested, but POSTIZ_INTEGRATION_IDS is empty; saved to review queue."
+            return "Auto-publish requested, but POSTIZ_INTEGRATION_IDS is empty; saved to local publishing queue."
 
         captioner = TemplateCaptionGenerator()
         publisher = PostizPublisher(
@@ -454,6 +454,7 @@ class AutomationEngine:
                 captions=captions.variants,
                 platforms=job.platforms,
                 requires_human_approval=self.settings.require_human_approval,
+                status="review" if self.settings.require_human_approval else "scheduled",
             )
             if self.settings.require_human_approval:
                 review_queue.write(job_payload)

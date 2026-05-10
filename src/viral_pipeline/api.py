@@ -37,9 +37,9 @@ _scheduler_thread: threading.Thread | None = None
 
 
 def _automation_loop() -> None:
-    settings = load_settings()
-    engine = AutomationEngine(settings)
-    while not _scheduler_stop.wait(settings.automation_poll_seconds):
+    while not _scheduler_stop.wait(load_settings().automation_poll_seconds):
+        settings = load_settings()
+        engine = AutomationEngine(settings)
         engine.run_due_once()
 
 

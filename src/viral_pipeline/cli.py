@@ -48,7 +48,7 @@ def main() -> None:
 
     startup = subparsers.add_parser(
         "generate-startup",
-        help="Generate original startup videos and queue them for review/publishing.",
+        help="Generate original startup videos and queue them for publishing.",
     )
     startup.add_argument("--startup-name", required=True)
     startup.add_argument("--description", required=True)
@@ -73,11 +73,12 @@ def main() -> None:
     dify.add_argument("--inputs-json", required=True, help="JSON string or path to a JSON file.")
     dify.add_argument("--workflow-id")
 
-    postiz = subparsers.add_parser("publish-postiz", help="Create a Postiz draft from a queue job JSON file.")
+    postiz = subparsers.add_parser("publish-postiz", help="Schedule a Postiz post from a queue job JSON file.")
     postiz.add_argument("job_file", type=Path)
     postiz.add_argument("--caption-index", type=int, default=0)
     postiz.add_argument("--schedule-at", help="ISO datetime. Defaults to now.")
-    postiz.add_argument("--schedule", action="store_true", help="Schedule instead of leaving as draft.")
+    postiz.add_argument("--schedule", action="store_true", help="Schedule the post. This is the default.")
+    postiz.add_argument("--draft", action="store_true", help="Create a Postiz draft instead of scheduling.")
 
     auto = subparsers.add_parser("automation-create", help="Create a recurring or scheduled startup video job.")
     auto.add_argument("--startup-name", required=True)
@@ -215,7 +216,7 @@ def main() -> None:
             job,
             scheduled_at=scheduled_at,
             caption_index=args.caption_index,
-            draft=not args.schedule,
+            draft=args.draft,
         )
         print(result)
         return
@@ -314,8 +315,8 @@ def _read_publishing_job(path: Path) -> PublishingJob:
         media_ref=payload["media_ref"],
         captions=tuple(payload["captions"]),
         platforms=tuple(payload["platforms"]),
-        requires_human_approval=bool(payload.get("requires_human_approval", True)),
-        status=payload.get("status", "review"),
+        requires_human_approval=bool(payload.get("requires_human_approval", False)),
+        status=payload.get("status", "ready"),
     )
 
 

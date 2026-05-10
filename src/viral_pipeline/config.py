@@ -57,7 +57,7 @@ class Settings:
     postiz_integration_ids: tuple[str, ...] = ()
     automation_poll_seconds: int = 15
     automation_min_interval_minutes: int = 15
-    require_human_approval: bool = True
+    require_human_approval: bool = False
 
     def ensure_directories(self) -> None:
         for path in (
@@ -95,5 +95,5 @@ def load_settings() -> Settings:
         postiz_integration_ids=_csv_tuple_from_env("POSTIZ_INTEGRATION_IDS"),
         automation_poll_seconds=int(os.environ.get("AUTOMATION_POLL_SECONDS", "15")),
         automation_min_interval_minutes=int(os.environ.get("AUTOMATION_MIN_INTERVAL_MINUTES", "15")),
-        require_human_approval=_bool_from_env("REQUIRE_HUMAN_APPROVAL", True),
+        require_human_approval=_bool_from_env("REQUIRE_HUMAN_APPROVAL", False),
     )

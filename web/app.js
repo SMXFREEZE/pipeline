@@ -1,4 +1,5 @@
 const defaults = {
+  schemaVersion: 2,
   mode: "continuous",
   themes: ["customer support automation", "reduce support backlog", "AI customer experience"],
   formats: ["problem-solution", "founder-note"],
@@ -16,8 +17,7 @@ const defaults = {
     intervalMinutes: "30",
     scheduledAt: "",
     platformPreset: "all",
-    autoPublish: false,
-    queueDrafts: true,
+    autoPublish: true,
   },
 };
 
@@ -45,7 +45,6 @@ const els = {
   themeInput: document.querySelector("#themeInput"),
   themeChips: document.querySelector("#themeChips"),
   autoPublish: document.querySelector("#autoPublish"),
-  queueDrafts: document.querySelector("#queueDrafts"),
   startButton: document.querySelector("#startButton"),
   startButtonSide: document.querySelector("#startButtonSide"),
   stopButton: document.querySelector("#stopButton"),
@@ -84,8 +83,7 @@ function hydrateFields() {
   els.intervalMinutes.value = profile.intervalMinutes;
   els.scheduledAt.value = profile.scheduledAt;
   els.platformPreset.value = profile.platformPreset;
-  els.autoPublish.checked = Boolean(profile.autoPublish);
-  els.queueDrafts.checked = profile.queueDrafts !== false;
+  els.autoPublish.checked = profile.autoPublish !== false;
 }
 
 function bindEvents() {
@@ -136,7 +134,6 @@ function bindEvents() {
     els.scheduledAt,
     els.platformPreset,
     els.autoPublish,
-    els.queueDrafts,
   ].forEach((input) => {
     input.addEventListener("input", () => {
       saveStateFromForm();
@@ -492,6 +489,7 @@ function readFileAsDataUrl(file) {
 }
 
 function saveStateFromForm() {
+  state.schemaVersion = defaults.schemaVersion;
   state.apiBase = els.apiBase.value || defaults.apiBase;
   state.profile = {
     startupName: els.startupName.value,
@@ -503,7 +501,6 @@ function saveStateFromForm() {
     scheduledAt: els.scheduledAt.value,
     platformPreset: els.platformPreset.value,
     autoPublish: els.autoPublish.checked,
-    queueDrafts: els.queueDrafts.checked,
   };
   localStorage.setItem("dedomena-video-studio", JSON.stringify(state));
 }
@@ -511,10 +508,15 @@ function saveStateFromForm() {
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem("dedomena-video-studio") || "{}");
+    const profile = { ...defaults.profile, ...(saved.profile || {}) };
+    if ((saved.schemaVersion || 1) < defaults.schemaVersion) {
+      profile.autoPublish = true;
+    }
     return {
       ...defaults,
       ...saved,
-      profile: { ...defaults.profile, ...(saved.profile || {}) },
+      schemaVersion: defaults.schemaVersion,
+      profile,
       stats: { ...defaults.stats, ...(saved.stats || {}) },
     };
   } catch {
