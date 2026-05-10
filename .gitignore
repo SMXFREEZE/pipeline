@@ -9,10 +9,17 @@ dist/
 build/
 *.egg-info/
 data/
+!src/data/
+!src/data/**
 media/raw/
 media/processed/
 publish_queue/
 generation_requests/
 external/dedomena-reference/
 qa_artifacts/
+.playwright-cli/
 .uvicorn.*
+node_modules/
+coverage/
+.vercel/
+tmp/

@@ -1,0 +1,62 @@
+{
+  "expo": {
+    "name": "iMessage-Prototype",
+    "slug": "iMessage-Prototype",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "platforms": ["ios"],
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "icon": "./assets/icon.png",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.chatapp",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "UIStatusBarStyle": "UIStatusBarStyleDefault",
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "LSApplicationQueriesSchemes": [
+          "music",
+          "itmss",
+          "itms-apps",
+          "https",
+          "music",
+          "itmss",
+          "itms-apps",
+          "https"
+        ],
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSExceptionDomains": {
+            "mzstatic.com": {
+              "NSExceptionAllowsInsecureHTTPLoads": true,
+              "NSExceptionMinimumTLSVersion": "1.0"
+            },
+            "itunes.apple.com": {
+              "NSExceptionAllowsInsecureHTTPLoads": true,
+              "NSExceptionMinimumTLSVersion": "1.0"
+            }
+          }
+        },
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6359a694-e6ea-4469-8d9a-5ea15e97cafd"
+      }
+    },
+    "plugins": [
+      "expo-audio",
+      "expo-dev-client",
+      "@react-native-community/datetimepicker",
+      "expo-image"
+    ]
+  }
+}

@@ -91,5 +91,5 @@ class PublishingJob:
     media_ref: str
     captions: tuple[str, str, str]
     platforms: tuple[str, ...]
-    requires_human_approval: bool = True
-    status: str = "review"
+    requires_human_approval: bool = False
+    status: str = "ready"

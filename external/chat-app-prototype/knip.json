@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["App.tsx", "scripts/*.{js,ts}"],
+  "ignore": [".rnstorybook/storybook.requires.ts"],
+  "ignoreDependencies": [
+    "expo-module-scripts",
+    "babel-loader",
+    "react-dom",
+    "@storybook/addon-actions",
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/github",
+    "@semantic-release/npm",
+    "@semantic-release/release-notes-generator",
+    "conventional-changelog-conventionalcommits",
+    "@storybook/react-native-theming",
+    "@storybook/react",
+    "expo-updates",
+    "@eslint/js",
+    "@expo/metro-config",
+    "babel-preset-expo",
+    "metro-minify-terser",
+    "lint-staged"
+  ]
+}

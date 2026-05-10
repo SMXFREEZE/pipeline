@@ -52,7 +52,7 @@
           <span class="status-dot ok"></span>
           <div>
             <strong id="postizStatus">Postiz optional</strong>
-            <span>Drafts and scheduling</span>
+            <span>Direct scheduling</span>
           </div>
         </div>
         <details class="api-details">
@@ -217,17 +217,10 @@
 
             <div class="option-list">
               <label>
-                <input id="autoPublish" type="checkbox" />
+                <input id="autoPublish" type="checkbox" checked />
                 <span>
-                  <strong>Send drafts to Postiz</strong>
-                  <small>Uses Postiz when integration IDs are configured.</small>
-                </span>
-              </label>
-              <label>
-                <input id="queueDrafts" type="checkbox" checked />
-                <span>
-                  <strong>Keep review queue</strong>
-                  <small>Save local queue files before publishing.</small>
+                  <strong>Auto publish through Postiz</strong>
+                  <small>Schedules directly when integration IDs are configured.</small>
                 </span>
               </label>
             </div>

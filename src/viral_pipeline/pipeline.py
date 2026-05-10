@@ -88,4 +88,5 @@ class ContentPipeline:
             captions=captions.variants,
             platforms=platforms,
             requires_human_approval=self.settings.require_human_approval,
+            status="review" if self.settings.require_human_approval else "ready",
         )

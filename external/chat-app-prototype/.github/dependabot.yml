@@ -1,0 +1,67 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    commit-message:
+      prefix: 'chore(deps)'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'automated'
+    reviewers:
+      - 'pdugan20'
+    assignees:
+      - 'pdugan20'
+    # Group minor and patch updates together
+    groups:
+      expo:
+        patterns:
+          - 'expo*'
+          - '@expo/*'
+      react-native:
+        patterns:
+          - 'react-native*'
+          - '@react-native*'
+      storybook:
+        patterns:
+          - '@storybook/*'
+          - 'storybook'
+      ai-sdks:
+        patterns:
+          - '@anthropic-ai/*'
+          - 'openai'
+      dev-dependencies:
+        dependency-type: 'development'
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps)'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+      - 'automated'
+    reviewers:
+      - 'pdugan20'
+    assignees:
+      - 'pdugan20'
+    groups:
+      actions-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
